@@ -2,16 +2,19 @@ module add_subtract_unit #(parameter WIDTH = 32) (
     input logic [WIDTH - 1:0] a, b,
     input logic  sub,
     output logic [WIDTH - 1:0] sum,
-    output logic cout
+    output logic cout,zero_flag,sign_flag,overflow
 );
 
 logic [WIDTH - 1:0] inv_b;
 logic [WIDTH:0] carry;
 
-
 assign inv_b = b ^ {WIDTH{sub}};
 assign carry[0] = sub;
 assign cout = carry[WIDTH];
+assign zero_flag = ~|sum;
+assign sign_flag = sum[WIDTH - 1];
+assign overflow = carry[WIDTH-1] ^ carry[WIDTH];
+
 
 genvar i;
 generate
