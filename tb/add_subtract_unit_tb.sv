@@ -12,35 +12,35 @@ add_subtract_unit #(.WIDTH(WIDTH)) dut (
     .cout(cout),
     .zero_flag(zero_flag),
     .sign_flag(sign_flag),
-    .overflow(overflow)
+    .overflow_flag(overflow)
 );
 
 task check_add();
     exp_sum = a + b;
     if (exp_sum !== sum) begin
         $error("FAIL_ADD a=%h b=%h | exp=%h got=%h", a, b, exp_sum, sum);
-        return;
+    end else begin
+        if (zero_flag !== (sum == '0))
+            $error("FAIL zero_flag add a=%h b=%h | sum=%h zero_flag=%b", a, b, sum, zero_flag);
+        if (sign_flag !== sum[WIDTH-1])
+            $error("FAIL sign_flag add a=%h b=%h | sum=%h sign_flag=%b", a, b, sum, sign_flag);
+        $display("PASS_ADD a=%h b=%h | sum=%h zero=%b sign=%b cout=%b overflow=%b",
+                 a, b, sum, zero_flag, sign_flag, cout, overflow);
     end
-    if (zero_flag !== (sum == '0))
-        $error("FAIL zero_flag add a=%h b=%h | sum=%h zero_flag=%b", a, b, sum, zero_flag);
-    if (sign_flag !== sum[WIDTH-1])
-        $error("FAIL sign_flag add a=%h b=%h | sum=%h sign_flag=%b", a, b, sum, sign_flag);
-    $display("PASS_ADD a=%h b=%h | sum=%h zero=%b sign=%b cout=%b overflow=%b",
-             a, b, sum, zero_flag, sign_flag, cout, overflow);
 endtask
 
 task check_sub();
     exp_diff = a - b;
     if (exp_diff !== sum) begin
         $error("FAIL_SUB a=%h b=%h | exp=%h got=%h", a, b, exp_diff, sum);
-        return;
+    end else begin
+        if (zero_flag !== (sum == '0))
+            $error("FAIL zero_flag sub a=%h b=%h | sum=%h zero_flag=%b", a, b, sum, zero_flag);
+        if (sign_flag !== sum[WIDTH-1])
+            $error("FAIL sign_flag sub a=%h b=%h | sum=%h sign_flag=%b", a, b, sum, sign_flag);
+        $display("PASS_SUB a=%h b=%h | sum=%h zero=%b sign=%b cout=%b overflow=%b",
+                 a, b, sum, zero_flag, sign_flag, cout, overflow);
     end
-    if (zero_flag !== (sum == '0))
-        $error("FAIL zero_flag sub a=%h b=%h | sum=%h zero_flag=%b", a, b, sum, zero_flag);
-    if (sign_flag !== sum[WIDTH-1])
-        $error("FAIL sign_flag sub a=%h b=%h | sum=%h sign_flag=%b", a, b, sum, sign_flag);
-    $display("PASS_SUB a=%h b=%h | sum=%h zero=%b sign=%b cout=%b overflow=%b",
-             a, b, sum, zero_flag, sign_flag, cout, overflow);
 endtask
 
 task check_overflow(
