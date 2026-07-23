@@ -1,6 +1,6 @@
 module logic_unit #(parameter WIDTH = 32) (
     input logic [WIDTH - 1:0] a , b,
-    input logic [1:0] logic_sel,
+    input logic [3:0] opcode,
     output logic [WIDTH - 1:0] result
 );
 
@@ -13,7 +13,7 @@ always_comb begin : logicUnits
     y_xor = a ^ b;
     y_nor = ~(a | b);
 
-    case (logic_sel)
+    case (opcode[1:0])
         2'b00: result = y_and;
         2'b01: result = y_or;
         2'b10: result = y_xor;
