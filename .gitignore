@@ -1,0 +1,6 @@
+# Simulation dump files
+dump/*.vcd
+
+# Compiled simulation binaries
+sim/*
+!sim/.gitkeep
